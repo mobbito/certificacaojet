@@ -29,37 +29,37 @@ Layout = "~/Views/Shared/Base/_LayoutBreadCrumbContent.cshtml";
             <div class="field">
                <div class="ui left icon input">
                   <i class="user icon"></i>
-                  <input type="text" name="nome" id="nome" onkeyup="MostrarValores('nome')" placeholder="Seu Nome">
+                  <input type="text" name="nome" id="nome" placeholder="Seu Nome">
                </div>
             </div>
             <div class="div two fields">
                <div class="field">
                   <div class="ui left icon input">
                      <i class="envelope icon"></i>
-                     <input type="text" name="email" id="email" onkeyup="MostrarValores('email')" placeholder="Seu E-mail">
+                     <input type="text" name="email" id="email" placeholder="Seu E-mail">
                   </div>
                </div>
                <div class="field">
                   <div class="ui left icon input">
                      <i class="phone square icon"></i>
-                     <input type="text" name="telefone" id="telefone" onkeyup="MostrarValores('telefone')" placeholder="(00) 00000-0000" class="masked mask_phone">
+                     <input type="text" name="telefone" id="telefone" placeholder="(00) 00000-0000" class="masked mask_phone">
                   </div>
                </div>
             </div>
             <div class="field">
                <div class="ui left icon input">
                   <i class="bullhorn icon"></i>
-                  <input type="text" name="assunto" id="assunto" onkeyup="MostrarValores('assunto')" placeholder="Assunto">
+                  <input type="text" name="assunto" id="assunto" placeholder="Assunto">
                </div>
             </div>
             <div class="field">
                <div class="ui left icon input">
-                  <textarea maxlength="6000" name="mensagem" id="mensagem" onkeyup="MostrarValores('mensagem')" placeholder="Mensagem"></textarea>
+                  <textarea maxlength="6000" name="mensagem" id="mensagem" placeholder="Mensagem"></textarea>
                </div>
             </div>
             <div class="div two fields">
-               <div class="ui fluid button large basic left" onclick="AbrirModal()">Listar Dados</div>
-               <div class="ui fluid large teal submit button primary">Enviar</div>
+               <div class="ui fluid button large basic left" id="btn_openmodal">Listar Dados</div>
+               <div class="ui fluid large teal submit button primary" id="btn_add_form_contato">Enviar</div>
             </div>
             <div class="ui error message"></div>
             }
@@ -181,11 +181,7 @@ Layout = "~/Views/Shared/Base/_LayoutBreadCrumbContent.cshtml";
                cancelButtonColor: '#d33',
                confirmButtonText: 'OK'
            }).then(function () {
-             if(operacao == "A")
-                return Adicionar();
-             else
-                return Editar();
-             });
+           });
    }
    
    function onFailure(response) {

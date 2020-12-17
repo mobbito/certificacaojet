@@ -1,24 +1,76 @@
-function AbrirModal() {
-	Listar();
-	$('.ui.longer.modal')
+$(document).ready(function () {
+	$(document).on("click", "#btn_openmodal", function (event) {
+		Listar();
+		$('.ui.longer.modal')
 		.modal('show');
-}
+	});
+
+	$(document).on("click", "#btn_add_form_contato", function (event) {
+		const acao = sessionStorage.getItem("acao");
+		if(acao === "E")
+			 Editar();
+    else
+			Adicionar();
+  });
+
+	$(document).on("click", "#btn_edit_form_contato", function (event) {
+		var item_selecionado = parseInt($(this).attr("alt"));
+		sessionStorage.setItem("item_selecionado", item_selecionado)
+		sessionStorage.setItem("acao", 'E');
+		ClickEditar(item_selecionado);
+	});
+
+});
+
+$(document).ready(function () {
+	$(document).on("keyup", "#nome", function (event) {
+		var texto = document.getElementById('nome').value
+		var div = document.getElementById('m_nome');
+		div.innerText = texto + "\n";
+	});
+
+	$(document).on("keyup", "#email", function (event) {
+		var texto = document.getElementById('email').value
+		var div = document.getElementById('m_email');
+		div.innerText = texto + "\n";
+	});
+
+	$(document).on("keyup", "#telefone", function (event) {
+		var texto = document.getElementById('telefone').value
+		var div = document.getElementById('m_telefone');
+		div.innerText = texto + "\n";
+	});
+
+
+	$(document).on("keyup", "#assunto", function (event) {
+		var texto = document.getElementById('assunto').value
+		var div = document.getElementById('m_assunto');
+		div.innerText = texto + "\n";
+	});
+
+	$(document).on("keyup", "#mensagem", function (event) {
+		var texto = document.getElementById('mensagem').value
+		var div = document.getElementById('m_mensagem');
+		div.innerText = texto + "\n";
+	});
+
+});
+
+
 
 function MostrarValores(campo) {
-
+	console.log('aqui')
 	var texto = document.getElementById(campo).value
 	var div = document.getElementById('m_' + campo);
-	console.log(texto)
 	div.innerText = texto + "\n";
 }
 
 var operacao = "A"; //"A"=Adição; "E"=Edição
-var indice_selecionado = -1; //Índice do item selecionado na lista
+var item_selecionado = -1; //Índice do item selecionado na lista
 var tbContato = sessionStorage.getItem("tbContato"); // Recupera os dados armazenados
 tbContato = JSON.parse(tbContato); // Converte string para objeto
 if (tbContato == null) // Caso não haja conteúdo, iniciamos um vetor vazio
 	tbContato = [];
-
 
 function Adicionar() {
 
@@ -38,11 +90,13 @@ function Adicionar() {
 	document.getElementById('assunto').value = '';
 	document.getElementById('mensagem').value = '';
 
+	sessionStorage.setItem("acao", 'A');
 	return true;
 }
 
 function Editar() {
-	tbContato[indice_selecionado] = JSON.stringify({
+	const item = sessionStorage.getItem("item_selecionado")
+	tbContato[item] = JSON.stringify({
 		Nome: $("#nome").val(),
 		Telefone: $("#telefone").val(),
 		Email: $("#email").val(),
@@ -57,7 +111,8 @@ function Editar() {
 	document.getElementById('assunto').value = '';
 	document.getElementById('mensagem').value = '';
 
-	operacao = "A";
+	sessionStorage.setItem("acao", 'A');
+	sessionStorage.removeItem("item_selecionado");
 	return true;
 }
 
@@ -87,14 +142,15 @@ function Listar() {
 		$("#tbMostrarFormulario tbody").append("<td>" + frm.Telefone + "</td>");
 		$("#tbMostrarFormulario tbody").append("<td>" + frm.Assunto + "</td>");
 		$("#tbMostrarFormulario tbody").append("<td>" + frm.Mensagem + "</td>");
-		$("#tbMostrarFormulario tbody").append("<td><img src='/assets/image/edit.png' onClick='ClickEditar(" + i + ")' width='15px' heigth='15px' alt='" + i + "' /></td>");
+		$("#tbMostrarFormulario tbody").append("<td><img src='/assets/image/edit.png' id='btn_edit_form_contato' width='15px' heigth='15px' alt='" + i + "' /></td>");
 		$("#tbMostrarFormulario tbody").append("</tr>");
 	}
 }
 
 function ClickEditar(id) {
-	operacao = "E";
-	indice_selecionado = parseInt($(this).attr("alt"));
+
+	sessionStorage.setItem("acao", 'E');
+	
 	var frm = JSON.parse(tbContato[id]);
 	$("#txtCodigo").val(frm.Codigo);
 	$("#nome").val(frm.Nome);

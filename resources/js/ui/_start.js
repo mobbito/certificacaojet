@@ -40,6 +40,8 @@ require('./modules/jquery-ui.min');
 //--------------------[ LazyLoad ]--------------------//
 require('../functions/lazy_load');
 
+require('../functions/backend');
+
 //--------------------[ Start Document ]--------------------//
 $(document).ready(function(){
     "use strict";
